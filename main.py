@@ -139,6 +139,18 @@ class Ui_MainWindow(object):
         self.btnSave.clicked.connect(self.save)
         self.btnGenRaw.clicked.connect(self.raw)
 
+        self.radioRf.toggled.connect(self.radioRf_function) 
+        self.radioIr.toggled.connect(self.radioIr_function)  
+
+    def radioRf_function(self):
+        if self.radioRf.isChecked():   
+            self.radioIr.setChecked(False) 
+
+    def radioIr_function(self):
+        if self.radioIr.isChecked():
+            self.radioRf.setChecked(False)
+
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -184,9 +196,9 @@ class Ui_MainWindow(object):
         mac = bytearray.fromhex(mac.replace(':', ' '))
         device = broadlink.rm4(host=host, mac=mac, devtype=0x51da)
         device.auth()
-        if self.radioRf.isChecked :
+        if self.radioRf.isChecked() :
             self.record_rf(device,file)
-        elif self.radioIr.isChecked:
+        elif self.radioIr.isChecked():
             self.record(device,file)
 
     def record(self,device, file):
